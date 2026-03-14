@@ -1,3 +1,6 @@
 <Solution>
   <Project Path="EFormBuilder.API/EFormBuilder.API.csproj" />
+  <Project Path="EFormBuilder.Application/EFormBuilder.Application.csproj" />
+  <Project Path="EFormBuilder.Domain/EFormBuilder.Domain.csproj" />
+  <Project Path="EFormBuilder.Infrastructure/EFormBuilder.Infrastructure.csproj" />
 </Solution>
