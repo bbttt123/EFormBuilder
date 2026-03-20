@@ -1,0 +1,39 @@
+﻿using EFormBuilder.Application.DTOs.Auth;
+using EFormBuilder.Application.Services;
+using Microsoft.AspNetCore.Mvc;
+
+namespace EFormBuilder.API.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class AuthController : ControllerBase
+    {
+        private readonly IAuthService _authService;
+
+        //Constructor
+        public AuthController(IAuthService authService)
+        {
+            _authService = authService;
+        }
+        //Register
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(RegisterRequest request)
+        {
+            var token = await _authService.RegisterAsync(request);
+            return Ok(new
+            {
+                token = token
+            });
+        }
+        //Login
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(LoginRequest request)
+        {
+            var token = await _authService.LoginAsync(request);
+            return Ok(new
+            {
+                token = token
+            });
+        }
+    }
+}

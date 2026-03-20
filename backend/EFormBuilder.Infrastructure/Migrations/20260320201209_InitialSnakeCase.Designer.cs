@@ -12,15 +12,15 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EFormBuilder.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260313173315_UpdateRelationships")]
-    partial class UpdateRelationships
+    [Migration("20260320201209_InitialSnakeCase")]
+    partial class InitialSnakeCase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.5")
+                .HasAnnotation("ProductVersion", "8.0.12")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -29,157 +29,203 @@ namespace EFormBuilder.Infrastructure.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<string>("AnswerText")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("answer_text");
 
                     b.Property<Guid>("FieldId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("field_id");
 
                     b.Property<Guid>("ResponseId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("response_id");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_answers");
 
-                    b.HasIndex("FieldId");
+                    b.HasIndex("FieldId")
+                        .HasDatabaseName("ix_answers_field_id");
 
-                    b.HasIndex("ResponseId");
+                    b.HasIndex("ResponseId")
+                        .HasDatabaseName("ix_answers_response_id");
 
-                    b.ToTable("Answers");
+                    b.ToTable("answers", (string)null);
                 });
 
             modelBuilder.Entity("EFormBuilder.Domain.Entities.Field", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<string>("FieldType")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("field_type");
 
                     b.Property<Guid>("FormId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("form_id");
 
                     b.Property<string>("Label")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("label");
 
                     b.Property<int>("OrderIndex")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("order_index");
 
                     b.Property<bool>("Required")
-                        .HasColumnType("boolean");
+                        .HasColumnType("boolean")
+                        .HasColumnName("required");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_fields");
 
-                    b.HasIndex("FormId");
+                    b.HasIndex("FormId")
+                        .HasDatabaseName("ix_fields_form_id");
 
-                    b.ToTable("Fields");
+                    b.ToTable("fields", (string)null);
                 });
 
             modelBuilder.Entity("EFormBuilder.Domain.Entities.FieldOption", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<Guid>("FieldId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("field_id");
 
                     b.Property<int>("OrderIndex")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("order_index");
 
                     b.Property<string>("Value")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("value");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_field_options");
 
-                    b.HasIndex("FieldId");
+                    b.HasIndex("FieldId")
+                        .HasDatabaseName("ix_field_options_field_id");
 
-                    b.ToTable("FieldOptions");
+                    b.ToTable("field_options", (string)null);
                 });
 
             modelBuilder.Entity("EFormBuilder.Domain.Entities.Form", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<string>("Description")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("description");
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("status");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("title");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
 
                     b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_forms");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("ix_forms_user_id");
 
-                    b.ToTable("Forms");
+                    b.ToTable("forms", (string)null);
                 });
 
             modelBuilder.Entity("EFormBuilder.Domain.Entities.Response", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<Guid>("FormId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("form_id");
 
                     b.Property<string>("ResponderEmail")
-                        .HasColumnType("text");
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("responder_email");
 
                     b.Property<DateTime>("SubmittedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("submitted_at");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_responses");
 
-                    b.HasIndex("FormId");
+                    b.HasIndex("FormId")
+                        .HasDatabaseName("ix_responses_form_id");
 
-                    b.ToTable("Responses");
+                    b.ToTable("responses", (string)null);
                 });
 
             modelBuilder.Entity("EFormBuilder.Domain.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("email");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("password_hash");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_users");
 
-                    b.ToTable("Users");
+                    b.ToTable("users", (string)null);
                 });
 
             modelBuilder.Entity("EFormBuilder.Domain.Entities.Answer", b =>
@@ -188,13 +234,15 @@ namespace EFormBuilder.Infrastructure.Migrations
                         .WithMany("Answers")
                         .HasForeignKey("FieldId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_answers_fields_field_id");
 
                     b.HasOne("EFormBuilder.Domain.Entities.Response", "Response")
                         .WithMany("Answers")
                         .HasForeignKey("ResponseId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_answers_responses_response_id");
 
                     b.Navigation("Field");
 
@@ -207,7 +255,8 @@ namespace EFormBuilder.Infrastructure.Migrations
                         .WithMany("Fields")
                         .HasForeignKey("FormId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_fields_forms_form_id");
 
                     b.Navigation("Form");
                 });
@@ -218,7 +267,8 @@ namespace EFormBuilder.Infrastructure.Migrations
                         .WithMany("FieldOptions")
                         .HasForeignKey("FieldId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_field_options_fields_field_id");
 
                     b.Navigation("Field");
                 });
@@ -229,7 +279,8 @@ namespace EFormBuilder.Infrastructure.Migrations
                         .WithMany("Forms")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_forms_users_user_id");
 
                     b.Navigation("User");
                 });
@@ -240,7 +291,8 @@ namespace EFormBuilder.Infrastructure.Migrations
                         .WithMany("Responses")
                         .HasForeignKey("FormId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_responses_forms_form_id");
 
                     b.Navigation("Form");
                 });
