@@ -20,5 +20,14 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasMany(x => x.Forms)
             .WithOne(x => x.User)
             .HasForeignKey(x => x.UserId);
+
+        builder.Property(u => u.OtpCode)
+           .HasMaxLength(6); 
+
+    builder.Property(u => u.IsActive)
+           .HasDefaultValue(false);
+           
+    builder.Property(u => u.OtpExpireTime)
+           .IsRequired(false);
     }
 }

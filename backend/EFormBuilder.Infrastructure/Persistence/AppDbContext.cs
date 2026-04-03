@@ -12,7 +12,9 @@ public class AppDbContext : DbContext
 
 	public DbSet<User> Users { get; set; }
 
-	public DbSet<Form> Forms { get; set; }
+    public DbSet<RefreshToken> RefreshTokens { get; set; }
+
+    public DbSet<Form> Forms { get; set; }
 
 	public DbSet<Field> Fields { get; set; }
 

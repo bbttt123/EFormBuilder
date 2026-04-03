@@ -1,7 +1,7 @@
 ﻿namespace EFormBuilder.Application.DTOs.Auth;
 
-public class RegisterRequest
+public class VerifyOtpRequest
 {
     public string Email { get; set; } = default!;
-    public string Password { get; set; } = default!;
+    public string OtpCode { get; set; } = default!;
 }

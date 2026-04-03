@@ -6,6 +6,8 @@ namespace EFormBuilder.Application.Services;
 
 public interface IAuthService
 {
-    Task<string> RegisterAsync(RegisterRequest request);
-    Task<string> LoginAsync(LoginRequest request);
+    Task<RegisterResponse> RegisterAsync(RegisterRequest request);
+    Task<LoginResponse> LoginAsync(LoginRequest request);
+
+    Task<bool> VerifyOtpAsync(VerifyOtpRequest request);
 }

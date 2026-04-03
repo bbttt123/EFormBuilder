@@ -13,4 +13,8 @@ public class User
     public DateTime UpdatedAt { get; set; }
 
     public ICollection<Form> Forms { get; set; } = new List<Form>();
+
+    public string? OtpCode { get; set; }
+    public DateTime? OtpExpireTime { get; set; }
+    public bool IsActive { get; set; } = false;
 }

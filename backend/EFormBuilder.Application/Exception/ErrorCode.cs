@@ -1,0 +1,34 @@
+﻿using System.Net;
+
+namespace EFormBuilder.Domain.Exceptions;
+
+public class ErrorCode
+{
+    public string Code { get; }
+    public HttpStatusCode HttpStatus { get; }
+    public string DefaultMessage { get; }
+
+    private ErrorCode(string code, HttpStatusCode httpStatus, string defaultMessage)
+    {
+        Code = code;
+        HttpStatus = httpStatus;
+        DefaultMessage = defaultMessage;
+    }
+
+    // --- Hệ thống & Chung ---
+    public static readonly ErrorCode InternalError = new("SYS_001", HttpStatusCode.InternalServerError, "Lỗi hệ thống");
+    public static readonly ErrorCode BadRequest = new("SYS_002", HttpStatusCode.BadRequest, "Yêu cầu không hợp lệ");
+
+    // --- Auth & User ---
+    public static readonly ErrorCode UserNotFound = new("USER_001", HttpStatusCode.NotFound, "Không tìm thấy người dùng");
+    public static readonly ErrorCode EmailAlreadyExists = new("USER_002", HttpStatusCode.BadRequest, "Email này đã được sử dụng");
+    public static readonly ErrorCode UserNotActive = new("USER_003", HttpStatusCode.Forbidden, "Tài khoản chưa được kích hoạt");
+    public static readonly ErrorCode UserAlreadyActive = new("USER_004", HttpStatusCode.BadRequest, "Tài khoản đã được kích hoạt trước đó");
+
+    public static readonly ErrorCode InvalidCredentials = new("AUTH_001", HttpStatusCode.Unauthorized, "Sai email hoặc mật khẩu");
+
+    // --- OTP ---
+    public static readonly ErrorCode InvalidOtp = new("OTP_001", HttpStatusCode.BadRequest, "Mã OTP không chính xác");
+    public static readonly ErrorCode OtpExpired = new("OTP_002", HttpStatusCode.BadRequest, "Mã OTP đã hết hạn");
+    public static readonly ErrorCode MailSendFailed = new("OTP_003", HttpStatusCode.ServiceUnavailable, "Không thể gửi email xác thực");
+}
