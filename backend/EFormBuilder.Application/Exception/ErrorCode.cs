@@ -31,4 +31,14 @@ public class ErrorCode
     public static readonly ErrorCode InvalidOtp = new("OTP_001", HttpStatusCode.BadRequest, "Mã OTP không chính xác");
     public static readonly ErrorCode OtpExpired = new("OTP_002", HttpStatusCode.BadRequest, "Mã OTP đã hết hạn");
     public static readonly ErrorCode MailSendFailed = new("OTP_003", HttpStatusCode.ServiceUnavailable, "Không thể gửi email xác thực");
+
+    // --- Form ---
+    public static readonly ErrorCode FormNotFound = new("FORM_001", HttpStatusCode.NotFound, "Form không tồn tại hoặc bạn không có quyền truy cập");
+    public static readonly ErrorCode InvalidFormStatus = new("FORM_002", HttpStatusCode.BadRequest, "Status không hợp lệ. Chỉ chấp nhận: Draft, Published, Closed");
+    public static readonly ErrorCode SlugAlreadyExists = new("FORM_003", HttpStatusCode.BadRequest, "Slug này đã được sử dụng");
+
+    // --- Field ---
+    public static readonly ErrorCode FieldNotFound = new("FIELD_001", HttpStatusCode.NotFound, "Field không tồn tại hoặc bạn không có quyền truy cập");
+    public static readonly ErrorCode InvalidFieldType = new("FIELD_002", HttpStatusCode.BadRequest, "Loại field không hợp lệ");
+    public static readonly ErrorCode InvalidFieldOrder = new("FIELD_003", HttpStatusCode.BadRequest, "Danh sách sắp xếp không hợp lệ");
 }
