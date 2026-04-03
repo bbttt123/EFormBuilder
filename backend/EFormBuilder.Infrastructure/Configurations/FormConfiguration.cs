@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿// EFormBuilder.Infrastructure/Configurations/FormConfiguration.cs — thêm Slug config
+
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using EFormBuilder.Domain.Entities;
 
@@ -14,15 +16,25 @@ public class FormConfiguration : IEntityTypeConfiguration<Form>
             .IsRequired()
             .HasMaxLength(200);
 
+        builder.Property(x => x.Slug)
+            .IsRequired()
+            .HasMaxLength(200);
+
+        builder.HasIndex(x => x.Slug)
+            .IsUnique();
+
         builder.Property(x => x.Status)
-            .IsRequired();
+            .IsRequired()
+            .HasDefaultValue("Draft");
 
         builder.HasMany(x => x.Fields)
             .WithOne(x => x.Form)
-            .HasForeignKey(x => x.FormId);
+            .HasForeignKey(x => x.FormId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasMany(x => x.Responses)
             .WithOne(x => x.Form)
-            .HasForeignKey(x => x.FormId);
+            .HasForeignKey(x => x.FormId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

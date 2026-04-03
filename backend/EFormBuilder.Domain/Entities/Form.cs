@@ -8,6 +8,8 @@ public class Form
 
     public string? Description { get; set; }
 
+    public string Slug { get; set; } = default!;
+
     public string Status { get; set; } = "Draft";
 
     public DateTime CreatedAt { get; set; }
