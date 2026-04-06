@@ -19,7 +19,7 @@ public class FormController : ControllerBase
         _formService = formService;
     }
 
-    /// <summary>POST /api/forms — Tạo form mới</summary>
+    /// POST /api/forms — Tạo form mới
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateFormRequest request)
     {
@@ -28,7 +28,7 @@ public class FormController : ControllerBase
         return StatusCode(201, ApiResponse<FormDetailResponse>.SuccessResponse(result));
     }
 
-    /// <summary>GET /api/forms — Danh sách form của creator</summary>
+    /// GET /api/forms — Danh sách form của creator
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
@@ -37,7 +37,7 @@ public class FormController : ControllerBase
         return Ok(ApiResponse<List<FormSummaryResponse>>.SuccessResponse(result));
     }
 
-    /// <summary>GET /api/forms/{id} — Chi tiết form + fields</summary>
+    /// GET /api/forms/{id} — Chi tiết form + fields
     [Authorize]
     [HttpGet("owner/slug/{slug}")]
     public async Task<IActionResult> GetBySlugForOwner(string slug)
@@ -49,7 +49,7 @@ public class FormController : ControllerBase
         return Ok(ApiResponse<FormDetailResponse>.SuccessResponse(result));
     }
 
-    /// <summary>PUT /api/forms/{id} — Cập nhật title / description / status</summary>
+    /// PUT /api/forms/{id} — Cập nhật title / description
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> Update(Guid id, [FromBody] UpdateFormRequest request)
     {
@@ -58,13 +58,24 @@ public class FormController : ControllerBase
         return Ok(ApiResponse<FormDetailResponse>.SuccessResponse(result));
     }
 
-    /// <summary>DELETE /api/forms/{id} — Xóa form</summary>
+    /// DELETE /api/forms/{id} — Xóa form
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {
         var userId = GetUserId();
         await _formService.DeleteAsync(userId, id);
         return Ok(ApiResponse<string>.SuccessResponse("Xóa form thành công"));
+    }
+
+    /// PUT /api/forms/{id}/status — Đổi trạng thái form
+    [HttpPut("{id:guid}/status")]
+    public async Task<IActionResult> SwitchStatus(Guid id, [FromBody] UpdateFormStatusRequest request)
+    {
+        var userId = GetUserId();
+
+        await _formService.SwitchStatusAsync(request.Status, id, userId);
+
+        return Ok(ApiResponse<string>.SuccessResponse("Cập nhật trạng thái thành công"));
     }
 
     // ─── HELPER ───────────────────────────────────────────────────────────────

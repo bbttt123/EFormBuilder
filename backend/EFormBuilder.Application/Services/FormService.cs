@@ -94,14 +94,7 @@ public class FormService : IFormService
         if (request.Description is not null)
             form.Description = request.Description;
 
-        if (request.Status is not null)
-        {
-            var validStatuses = new[] { "Draft", "Published", "Closed" };
-            if (!validStatuses.Contains(request.Status))
-                throw new BusinessException(ErrorCode.InvalidFormStatus);
-
-            form.Status = request.Status;
-        }
+        
 
         form.UpdatedAt = DateTime.UtcNow;
         await _context.SaveChangesAsync();
@@ -120,6 +113,22 @@ public class FormService : IFormService
         _context.Forms.Remove(form);
         await _context.SaveChangesAsync();
     }
+    // ─── SWITCH STATUS ───────────────────────────────────────────────────────────────
+    public async Task SwitchStatusAsync(string status, Guid formId, Guid userId)
+    {
+        var form = await _context.Forms
+            .FirstOrDefaultAsync(f => f.Id == formId && f.UserId == userId)
+            ?? throw new BusinessException(ErrorCode.FormNotFound);
+
+        var validStatus = new[] { "Draft", "Published", "Closed" };
+        if (!validStatus.Contains(status))
+            throw new BusinessException(ErrorCode.InvalidFormStatus);
+        form.Status = status;
+        form.UpdatedAt = DateTime.UtcNow;
+        await _context.SaveChangesAsync();
+    }
+
+
 
     // ─── HELPERS ───────────────────────────────────────────────────────────────
 
@@ -176,4 +185,6 @@ public class FormService : IFormService
             }).ToList()
         }).ToList()
     };
+
+    
 }
