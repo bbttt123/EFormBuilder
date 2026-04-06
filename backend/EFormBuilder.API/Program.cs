@@ -90,6 +90,9 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IFormService, FormService>();
 builder.Services.AddScoped<IFieldService, FieldService>();
+builder.Services.AddScoped<IPublicFormService, PublicFormService>();
+builder.Services.AddScoped<IResponseService, ResponseService>();
+
 // 2. Cấu hình JWT & Custom Response cho 401/403
 var jwtSettings = builder.Configuration.GetSection("Jwt");
 var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]!);

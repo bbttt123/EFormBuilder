@@ -36,9 +36,21 @@ public class ErrorCode
     public static readonly ErrorCode FormNotFound = new("FORM_001", HttpStatusCode.NotFound, "Form không tồn tại hoặc bạn không có quyền truy cập");
     public static readonly ErrorCode InvalidFormStatus = new("FORM_002", HttpStatusCode.BadRequest, "Status không hợp lệ. Chỉ chấp nhận: Draft, Published, Closed");
     public static readonly ErrorCode SlugAlreadyExists = new("FORM_003", HttpStatusCode.BadRequest, "Slug này đã được sử dụng");
-
+    public static readonly ErrorCode InvalidField = new("FORM_005", HttpStatusCode.BadRequest, "Không có field để Publish");
     // --- Field ---
     public static readonly ErrorCode FieldNotFound = new("FIELD_001", HttpStatusCode.NotFound, "Field không tồn tại hoặc bạn không có quyền truy cập");
     public static readonly ErrorCode InvalidFieldType = new("FIELD_002", HttpStatusCode.BadRequest, "Loại field không hợp lệ");
     public static readonly ErrorCode InvalidFieldOrder = new("FIELD_003", HttpStatusCode.BadRequest, "Danh sách sắp xếp không hợp lệ");
+
+
+    // --- Public Form ---
+    public static readonly ErrorCode FormNotPublished = new("FORM_004", HttpStatusCode.Forbidden, "Form chưa được công bố hoặc đã đóng");
+
+    // --- Submit ---
+    public static readonly ErrorCode DuplicateEmail = new("RESP_001", HttpStatusCode.Conflict, "Email này đã submit form rồi");
+    public static readonly ErrorCode RequiredFieldMissing = new("RESP_002", HttpStatusCode.BadRequest, "Vui lòng điền đầy đủ các trường bắt buộc");
+    public static readonly ErrorCode InvalidFieldReference = new("RESP_003", HttpStatusCode.BadRequest, "FieldId không thuộc form này");
+
+    // --- Response ---
+    public static readonly ErrorCode ResponseNotFound = new("RESP_004", HttpStatusCode.NotFound, "Không tìm thấy response");
 }
