@@ -85,6 +85,8 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 });
+builder.Services.AddHttpContextAccessor(); // IHttpContextAccessor
+builder.Services.AddScoped<ICookieService, CookieService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
@@ -137,7 +139,6 @@ builder.Services.AddAuthentication(options =>
 
 var app = builder.Build();
 
-// --- THỨ TỰ PIPELINE (RẤT QUAN TRỌNG) ---
 
 // PHẢI ĐỂ ĐẦU TIÊN để hứng toàn bộ lỗi từ các lớp bên dưới
 app.UseMiddleware<GlobalExceptionMiddleware>();

@@ -27,6 +27,10 @@ public class ErrorCode
 
     public static readonly ErrorCode InvalidCredentials = new("AUTH_001", HttpStatusCode.Unauthorized, "Sai email hoặc mật khẩu");
 
+    // Refresh Token
+    public static readonly ErrorCode InvalidRefreshToken = new("AUTH_002", HttpStatusCode.Unauthorized, "Refresh token không hợp lệ hoặc đã hết hạn");
+    public static readonly ErrorCode TokenCompromised = new("AUTH_003", HttpStatusCode.Forbidden, "Phát hiện truy cập trái phép. Phiên đăng nhập đã bị hủy để bảo mật");
+
     // --- OTP ---
     public static readonly ErrorCode InvalidOtp = new("OTP_001", HttpStatusCode.BadRequest, "Mã OTP không chính xác");
     public static readonly ErrorCode OtpExpired = new("OTP_002", HttpStatusCode.BadRequest, "Mã OTP đã hết hạn");
@@ -37,11 +41,11 @@ public class ErrorCode
     public static readonly ErrorCode InvalidFormStatus = new("FORM_002", HttpStatusCode.BadRequest, "Status không hợp lệ. Chỉ chấp nhận: Draft, Published, Closed");
     public static readonly ErrorCode SlugAlreadyExists = new("FORM_003", HttpStatusCode.BadRequest, "Slug này đã được sử dụng");
     public static readonly ErrorCode InvalidField = new("FORM_005", HttpStatusCode.BadRequest, "Không có field để Publish");
+
     // --- Field ---
     public static readonly ErrorCode FieldNotFound = new("FIELD_001", HttpStatusCode.NotFound, "Field không tồn tại hoặc bạn không có quyền truy cập");
     public static readonly ErrorCode InvalidFieldType = new("FIELD_002", HttpStatusCode.BadRequest, "Loại field không hợp lệ");
     public static readonly ErrorCode InvalidFieldOrder = new("FIELD_003", HttpStatusCode.BadRequest, "Danh sách sắp xếp không hợp lệ");
-
 
     // --- Public Form ---
     public static readonly ErrorCode FormNotPublished = new("FORM_004", HttpStatusCode.Forbidden, "Form chưa được công bố hoặc đã đóng");
