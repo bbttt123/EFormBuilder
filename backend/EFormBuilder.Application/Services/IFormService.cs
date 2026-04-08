@@ -9,4 +9,6 @@ public interface IFormService
     Task<FormDetailResponse> GetBySlugAsync(Guid userId, string slug);
     Task<FormDetailResponse> UpdateAsync(Guid userId, Guid formId, UpdateFormRequest request);
     Task DeleteAsync(Guid userId, Guid formId);
+
+    Task SwitchStatusAsync(string status, Guid formId, Guid userId);
 }

@@ -85,11 +85,16 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 });
+builder.Services.AddHttpContextAccessor(); // IHttpContextAccessor
+builder.Services.AddScoped<ICookieService, CookieService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IFormService, FormService>();
 builder.Services.AddScoped<IFieldService, FieldService>();
+builder.Services.AddScoped<IPublicFormService, PublicFormService>();
+builder.Services.AddScoped<IResponseService, ResponseService>();
+
 // 2. Cấu hình JWT & Custom Response cho 401/403
 var jwtSettings = builder.Configuration.GetSection("Jwt");
 var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]!);
@@ -145,7 +150,6 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// --- THỨ TỰ PIPELINE (RẤT QUAN TRỌNG) ---
 
 // PHẢI ĐỂ ĐẦU TIÊN để hứng toàn bộ lỗi từ các lớp bên dưới
 app.UseMiddleware<GlobalExceptionMiddleware>();
