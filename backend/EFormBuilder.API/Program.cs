@@ -94,6 +94,16 @@ builder.Services.AddScoped<IFormService, FormService>();
 builder.Services.AddScoped<IFieldService, FieldService>();
 builder.Services.AddScoped<IPublicFormService, PublicFormService>();
 builder.Services.AddScoped<IResponseService, ResponseService>();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp", policy =>
+    {
+        policy.WithOrigins("http://localhost:8080") // Cổng của Vite
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials(); // Rất quan trọng vì bạn có sài Cookie
+    });
+});
 
 // 2. Cấu hình JWT & Custom Response cho 401/403
 var jwtSettings = builder.Configuration.GetSection("Jwt");
@@ -155,6 +165,8 @@ var app = builder.Build();
 app.UseMiddleware<GlobalExceptionMiddleware>();
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowReactApp");
 
 if (app.Environment.IsDevelopment())
 {
