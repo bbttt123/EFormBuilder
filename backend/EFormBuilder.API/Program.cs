@@ -146,18 +146,6 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-//Thêm cấu hình CORS (để trước builder.Build())
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowFrontend", policy =>
-    {
-        policy.WithOrigins("http://localhost:8080") // Trùng với port của Vite Frontend
-              .AllowAnyHeader()
-              .AllowAnyMethod()
-              .AllowCredentials(); 
-    });
-});
-
 var app = builder.Build();
 
 
