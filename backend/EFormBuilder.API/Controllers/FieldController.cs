@@ -67,6 +67,34 @@ public class FieldController : ControllerBase
         return Ok(ApiResponse<string>.SuccessResponse("Sắp xếp field thành công"));
     }
 
+    // ─── ADD FIELD OPTIONS ───────────────────────────────
+
+    [HttpPost("fields/{fieldId:guid}/options")]
+    public async Task<IActionResult> AddOption(Guid fieldId, [FromBody] FieldOptionRequest request)
+    {
+        var userId = GetUserId();
+        await _fieldService.AddFieldOptionAsync(userId, fieldId, request.Value);
+        return Ok(ApiResponse<string>.SuccessResponse("Thêm lựa chọn thành công"));
+    }
+
+    // ─── UPDATE FIELD OPTIONS ───────────────────────────────
+    [HttpPut("options/{optionId:guid}")]
+    public async Task<IActionResult> UpdateOption(Guid optionId, [FromBody] FieldOptionRequest request)
+    {
+        var userId = GetUserId();
+        await _fieldService.UpdateFieldOptionAsync(userId, optionId, request.Value);
+        return Ok(ApiResponse<string>.SuccessResponse("Cập nhật lựa chọn thành công"));
+    }
+
+    // ─── DELETE FIELD OPTIONS ───────────────────────────────
+    [HttpDelete("options/{optionId:guid}")]
+    public async Task<IActionResult> DeleteOption(Guid optionId)
+    {
+        var userId = GetUserId();
+        await _fieldService.DeleteFieldOptionAsync(userId, optionId);
+        return Ok(ApiResponse<string>.SuccessResponse("Xóa lựa chọn thành công"));
+    }
+
     // ─── HELPER ────────────────────────────────────────────
 
     private Guid GetUserId()

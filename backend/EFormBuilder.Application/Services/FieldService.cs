@@ -95,4 +95,51 @@ public class FieldService : IFieldService
 
         await _context.SaveChangesAsync();
     }
+
+    // ─── ADD FIELD OPTIONS ────────────────────────────────────────
+
+    public async Task AddFieldOptionAsync(Guid userId, Guid fieldId, string value)
+    {
+        // Kiểm tra field có tồn tại và thuộc về user không
+        var field = await _context.Fields
+            .Include(f => f.Form)
+            .Include(f => f.FieldOptions)
+            .FirstOrDefaultAsync(f => f.Id == fieldId && f.Form.UserId == userId)
+            ?? throw new BusinessException(ErrorCode.FieldNotFound);
+
+        var option = new FieldOption
+        {
+            Id = Guid.NewGuid(),
+            FieldId = fieldId,
+            Value = value,
+            OrderIndex = field.FieldOptions.Count
+        };
+
+        _context.FieldOptions.Add(option);
+        await _context.SaveChangesAsync();
+    }
+
+    // ─── UPDATE FIELD OPTIONS ────────────────────────────────────────
+    public async Task UpdateFieldOptionAsync(Guid userId, Guid optionId, string value)
+    {
+        var option = await _context.FieldOptions
+            .Include(o => o.Field).ThenInclude(f => f.Form)
+            .FirstOrDefaultAsync(o => o.Id == optionId && o.Field.Form.UserId == userId)
+            ?? throw new BusinessException(ErrorCode.FieldNotFound);
+
+        option.Value = value;
+        await _context.SaveChangesAsync();
+    }
+
+    // ─── DELETE FIELD OPTIONS ────────────────────────────────────────
+    public async Task DeleteFieldOptionAsync(Guid userId, Guid optionId)
+    {
+        var option = await _context.FieldOptions
+            .Include(o => o.Field).ThenInclude(f => f.Form)
+            .FirstOrDefaultAsync(o => o.Id == optionId && o.Field.Form.UserId == userId)
+            ?? throw new BusinessException(ErrorCode.FieldNotFound);
+
+        _context.FieldOptions.Remove(option);
+        await _context.SaveChangesAsync();
+    }
 }
