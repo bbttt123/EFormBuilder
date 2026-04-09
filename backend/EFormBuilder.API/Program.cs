@@ -146,7 +146,6 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-
 var app = builder.Build();
 
 
@@ -162,6 +161,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+
+// Kích hoạt CORS (PHẢI để trước UseAuthentication và UseAuthorization)
+app.UseCors("AllowFrontend");
 
 // Authentication phải đứng TRƯỚC Authorization
 app.UseAuthentication();
